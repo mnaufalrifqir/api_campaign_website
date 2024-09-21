@@ -1,6 +1,10 @@
 package campaign
 
-import "gorm.io/gorm"
+import (
+	"api-campaign/user"
+
+	"gorm.io/gorm"
+)
 
 type Campaign struct {
 	gorm.Model
@@ -14,6 +18,7 @@ type Campaign struct {
 	Slug string
 	UserID uint
 	CampaignImages []CampaignImage
+	User user.User
 }
 
 type CampaignImage struct {
