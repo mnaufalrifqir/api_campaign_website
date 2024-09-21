@@ -1,9 +1,10 @@
 package database
 
 import (
-	"fmt"
+	"api-campaign/campaign"
 	"api-campaign/user"
 	"api-campaign/utils"
+	"fmt"
 	"log"
 
 	"gorm.io/driver/postgres"
@@ -33,7 +34,7 @@ func ConnectDB() {
 }
 
 func InitialMigration() {
-	err := DB.AutoMigrate(&user.User{})
+	err := DB.AutoMigrate(&user.User{}, &campaign.Campaign{}, &campaign.CampaignImage{})
 
 	if err != nil {
 		log.Printf("Error when migrating the database: %v", err)

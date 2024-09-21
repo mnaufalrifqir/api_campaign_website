@@ -2,6 +2,7 @@ package router
 
 import (
 	"api-campaign/auth"
+	"api-campaign/campaign"
 	"api-campaign/database"
 	"api-campaign/handler"
 	"api-campaign/helper"
@@ -70,19 +71,26 @@ func SetupRouter(mode string) *gin.Engine {
 	database.InitialMigration()
 
 	userRepository := user.NewRepository(database.DB)
+	campaignRepository := campaign.NewRepository(database.DB)
+
 	userService := user.NewService(userRepository)
+	campaignService := campaign.NewService(campaignRepository)
 	authService := auth.NewService()
+
 	userHandler := handler.NewUserHandler(userService, authService)
+	campaignHandler := handler.NewCampaignHandler(campaignService)
 
 	router.Use(cors.Default())
 	router.Use(logger.SetLogger())
  
+	router.Static("/images", "./images")
 	api := router.Group("/api/v1")
 
 	api.POST("/register", userHandler.RegisterUser)
 	api.POST("/login", userHandler.LoginUser)
 	api.POST("/email-checkers", userHandler.CheckEmailAvailability)
 	api.POST("/avatars", authMiddleware(authService, userService), userHandler.UploadAvatar)
- 
+	api.GET("/campaigns", campaignHandler.GetCampaigns)
+
 	return router
 }
