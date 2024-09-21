@@ -7,7 +7,7 @@ type Repository interface {
 	FindByUserID(userID uint) ([]Campaign, error)
 	FindByID(ID uint) (Campaign, error)
 	Save(campaign Campaign) (Campaign, error)
-	// Update(campaign Campaign) (Campaign, error)
+	Update(campaign Campaign) (Campaign, error)
 	// CreateImage(campaignImage CampaignImage) (CampaignImage, error)
 	// MarkAllImagesAsNonPrimary(campaignID uint) error
 	// FindByCampaignIDAndIsPrimary(campaignID uint) (CampaignImage, error)
@@ -56,6 +56,15 @@ func (r *repository) FindByID(ID uint) (Campaign, error) {
 
 func (r *repository) Save(campaign Campaign) (Campaign, error) {
 	err := r.db.Create(&campaign).Error
+	if err != nil {
+		return campaign, err
+	}
+
+	return campaign, nil
+}
+
+func (r *repository) Update(campaign Campaign) (Campaign, error) {
+	err := r.db.Save(&campaign).Error
 	if err != nil {
 		return campaign, err
 	}
