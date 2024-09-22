@@ -2,6 +2,7 @@ package database
 
 import (
 	"api-campaign/campaign"
+	"api-campaign/transaction"
 	"api-campaign/user"
 	"api-campaign/utils"
 	"fmt"
@@ -34,7 +35,8 @@ func ConnectDB() {
 }
 
 func InitialMigration() {
-	err := DB.AutoMigrate(&user.User{}, &campaign.Campaign{}, &campaign.CampaignImage{})
+	err := DB.AutoMigrate(&user.User{}, &campaign.Campaign{}, &campaign.CampaignImage{},  &transaction.Transaction{})
+
 
 	if err != nil {
 		log.Printf("Error when migrating the database: %v", err)
