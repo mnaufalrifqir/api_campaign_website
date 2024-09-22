@@ -10,7 +10,6 @@ type Repository interface {
 	Update(campaign Campaign) (Campaign, error)
 	CreateImage(campaignImage CampaignImage) (CampaignImage, error)
 	MarkAllImagesAsNonPrimary(campaignID uint) (bool, error)
-	// FindByCampaignIDAndIsPrimary(campaignID uint) (CampaignImage, error)
 }
 
 type repository struct {
