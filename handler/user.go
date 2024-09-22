@@ -4,6 +4,7 @@ import (
 	"api-campaign/auth"
 	"api-campaign/helper"
 	"api-campaign/user"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -135,7 +136,7 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 
 	currentUser := c.MustGet("currentUser").(user.User)
 	userID := currentUser.ID
-	path := "images/" + file.Filename
+	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
 
 	err = c.SaveUploadedFile(file, path)
 	if err != nil {
